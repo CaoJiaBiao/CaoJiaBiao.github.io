@@ -164,6 +164,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/04/14/Go-Sync-Once/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon-140x140.jpg">
+      <meta itemprop="name" content="Cao Jia Biao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chico Cao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/Go-Sync-Once/" class="post-title-link" itemprop="url">Go-Sync-Once</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 17:50:22" itemprop="dateCreated datePublished" datetime="2020-04-14T17:50:22+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-15 17:57:47" itemprop="dateModified" datetime="2020-04-15T17:57:47+08:00">2020-04-15</time>
+              </span>
+
+          
+            <span id="/2020/04/14/Go-Sync-Once/" class="post-meta-item leancloud_visitors" data-flag-title="Go-Sync-Once" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>523</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="源码-go-version-go1-14-windows-amd64"><a href="#源码-go-version-go1-14-windows-amd64" class="headerlink" title="源码 go version go1.14 windows/amd64"></a>源码 go version go1.14 windows/amd64</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> sync</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"sync/atomic"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Once is an object that will perform exactly one action.</span></span><br><span class="line"><span class="keyword">type</span> Once <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// done 用来判断有没有执行过</span></span><br><span class="line">	done <span class="keyword">uint32</span></span><br><span class="line">	m    Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(o *Once)</span> <span class="title">Do</span><span class="params">(f <span class="keyword">func</span>()</span>)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> atomic.LoadUint32(&amp;o.done) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="comment">// Outlined slow-path to allow inlining of the fast-path.</span></span><br><span class="line">		o.doSlow(f)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(o *Once)</span> <span class="title">doSlow</span><span class="params">(f <span class="keyword">func</span>()</span>)</span> &#123;</span><br><span class="line">	o.m.Lock()</span><br><span class="line">	<span class="keyword">defer</span> o.m.Unlock()</span><br><span class="line">	<span class="comment">// 与atomic.LoadUint32结合用的话，就相当于双层加锁</span></span><br><span class="line">	<span class="keyword">if</span> o.done == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> atomic.StoreUint32(&amp;o.done, <span class="number">1</span>)</span><br><span class="line">		f()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/04/14/linux-awk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -496,7 +582,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -509,7 +595,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -554,13 +640,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">2k</span>
+    <span title="站点总字数">3k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2 分钟</span>
+    <span title="站点阅读时长">3 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
