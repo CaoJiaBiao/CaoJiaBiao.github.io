@@ -4,7 +4,7 @@ Allow: /archives/
 Allow: /categories/
 Allow: /tags/
 Allow: /resources/
-Allow: /lib/
+Allow: /lib/ 
 Disallow: /vendors/
 Disallow: /fancybox/
 

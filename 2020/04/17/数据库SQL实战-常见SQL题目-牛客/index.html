@@ -24,22 +24,20 @@
     var CONFIG = {"hostname":"caojiabiao.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="1. 用法： awk [选项参数] ‘script’ var&#x3D;value file(s)">
+  <meta name="description" content="基础数据表1234567891011121314151617181920212223242526272829CREATE TABLE &#96;employees&#96; (&#96;emp_no&#96; int(11) NOT NULL,&#96;birth_date&#96; date NOT NULL,&#96;first_name&#96; varchar(14) NOT NULL,&#96;last_name&#96; varchar(16) NOT NULL,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux_awk">
-<meta property="og:url" content="http://caojiabiao.github.io/2020/04/14/linux-awk/index.html">
+<meta property="og:title" content="数据库SQL实战-常见SQL题目-牛客">
+<meta property="og:url" content="http://caojiabiao.github.io/2020/04/17/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E5%AE%9E%E6%88%98-%E5%B8%B8%E8%A7%81SQL%E9%A2%98%E7%9B%AE-%E7%89%9B%E5%AE%A2/index.html">
 <meta property="og:site_name" content="Chico Cao">
-<meta property="og:description" content="1. 用法： awk [选项参数] ‘script’ var&#x3D;value file(s)">
+<meta property="og:description" content="基础数据表1234567891011121314151617181920212223242526272829CREATE TABLE &#96;employees&#96; (&#96;emp_no&#96; int(11) NOT NULL,&#96;birth_date&#96; date NOT NULL,&#96;first_name&#96; varchar(14) NOT NULL,&#96;last_name&#96; varchar(16) NOT NULL,">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2020/04/17/JVWGDI.png">
-<meta property="article:published_time" content="2020-04-14T09:38:06.000Z">
-<meta property="article:modified_time" content="2020-04-17T08:04:04.283Z">
+<meta property="article:published_time" content="2020-04-17T07:22:21.000Z">
+<meta property="article:modified_time" content="2020-04-18T07:37:02.168Z">
 <meta property="article:author" content="Cao Jia Biao">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/04/17/JVWGDI.png">
 
-<link rel="canonical" href="http://caojiabiao.github.io/2020/04/14/linux-awk/">
+<link rel="canonical" href="http://caojiabiao.github.io/2020/04/17/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E5%AE%9E%E6%88%98-%E5%B8%B8%E8%A7%81SQL%E9%A2%98%E7%9B%AE-%E7%89%9B%E5%AE%A2/">
 
 
 <script id="page-configurations">
@@ -52,7 +50,7 @@
   };
 </script>
 
-  <title>linux_awk | Chico Cao</title>
+  <title>数据库SQL实战-常见SQL题目-牛客 | Chico Cao</title>
   
 
 
@@ -172,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/04/14/linux-awk/">
+    <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/04/17/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E5%AE%9E%E6%88%98-%E5%B8%B8%E8%A7%81SQL%E9%A2%98%E7%9B%AE-%E7%89%9B%E5%AE%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/favicon-140x140.jpg">
@@ -185,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          linux_awk
+          数据库SQL实战-常见SQL题目-牛客
         </h1>
 
         <div class="post-meta">
@@ -195,18 +193,18 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-14 17:38:06" itemprop="dateCreated datePublished" datetime="2020-04-14T17:38:06+08:00">2020-04-14</time>
+              <time title="创建时间：2020-04-17 15:22:21" itemprop="dateCreated datePublished" datetime="2020-04-17T15:22:21+08:00">2020-04-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 16:04:04" itemprop="dateModified" datetime="2020-04-17T16:04:04+08:00">2020-04-17</time>
+                <time title="修改时间：2020-04-18 15:37:02" itemprop="dateModified" datetime="2020-04-18T15:37:02+08:00">2020-04-18</time>
               </span>
 
           
-            <span id="/2020/04/14/linux-awk/" class="post-meta-item leancloud_visitors" data-flag-title="linux_awk" title="阅读次数">
+            <span id="/2020/04/17/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E5%AE%9E%E6%88%98-%E5%B8%B8%E8%A7%81SQL%E9%A2%98%E7%9B%AE-%E7%89%9B%E5%AE%A2/" class="post-meta-item leancloud_visitors" data-flag-title="数据库SQL实战-常见SQL题目-牛客" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -218,7 +216,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -237,134 +235,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="1-用法："><a href="#1-用法：" class="headerlink" title="1. 用法："></a>1. 用法：</h1><blockquote>
-<p>awk [选项参数] ‘script’ var=value file(s)</p>
-</blockquote>
-<a id="more"></a>
+        <h2 id="基础数据表"><a href="#基础数据表" class="headerlink" title="基础数据表"></a>基础数据表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`employees`</span> (</span><br><span class="line"><span class="string">`emp_no`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`birth_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`first_name`</span> <span class="built_in">varchar</span>(<span class="number">14</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`last_name`</span> <span class="built_in">varchar</span>(<span class="number">16</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`gender`</span> <span class="built_in">char</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`hire_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`emp_no`</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`dept_manager`</span> (</span><br><span class="line"><span class="string">`dept_no`</span> <span class="built_in">char</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`emp_no`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`from_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`to_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`emp_no`</span>,<span class="string">`dept_no`</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`dept_emp`</span> (</span><br><span class="line"><span class="string">`emp_no`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`dept_no`</span> <span class="built_in">char</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`from_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`to_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`emp_no`</span>,<span class="string">`dept_no`</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`salaries`</span> (</span><br><span class="line"><span class="string">`emp_no`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`salary`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`from_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="string">`to_date`</span> <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`emp_no`</span>,<span class="string">`from_date`</span>));</span><br></pre></td></tr></table></figure>
 
-<h1 id="2-内建变量"><a href="#2-内建变量" class="headerlink" title="2. 内建变量"></a>2. 内建变量</h1><table>
-<thead>
-<tr>
-<th>变量</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$0</td>
-<td>完整的输入记录</td>
-</tr>
-<tr>
-<td>NF</td>
-<td>一条记录的字段的数目</td>
-</tr>
-<tr>
-<td>NR</td>
-<td>已经读出的记录数，就是行号，从1开始</td>
-</tr>
-<tr>
-<td>FS</td>
-<td>字段分隔符(默认是任何空格)</td>
-</tr>
-</tbody></table>
-<h1 id="3-正则"><a href="#3-正则" class="headerlink" title="3. 正则"></a>3. 正则</h1><p>字符串匹配 输出第二列包含 “th”，并打印第二列与第四列</p>
-<ul>
-<li><blockquote>
-<p>awk ‘$2 ~ /th/ {print $2,$4}’ log.txt</p>
-</blockquote>
-</li>
-<li>~ 表示模式开始。// 中是模式。</li>
-</ul>
-<p>输出包含”re” 的行</p>
-<ul>
-<li><blockquote>
-<p>awk ‘/re/ ‘ log.txt</p>
-</blockquote>
-</li>
-</ul>
-<p>模式取反</p>
-<ul>
-<li><blockquote>
-<p>awk ‘$2 !~ /th/ {print $2,$4}’ log.txt</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>awk ‘!/th/ {print $2,$4}’ log.txt</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="4-awk脚本"><a href="#4-awk脚本" class="headerlink" title="4. awk脚本"></a>4. awk脚本</h1><p>关于awk脚本，我们需要注意两个关键词BEGIN和END。</p>
-<ul>
-<li>BEGIN{ 这里面放的是执行前的语句 }</li>
-<li>END {这里面放的是处理完所有的行后要执行的语句 }</li>
-<li>{这里面放的是处理每一行时要执行的语句}</li>
-</ul>
-<p>假设有这么一个文件（学生成绩表）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cat score.txt</span><br><span class="line">Marry   2143 78 84 77</span><br><span class="line">Jack    2321 66 78 45</span><br><span class="line">Tom     2122 48 77 71</span><br><span class="line">Mike    2537 87 97 95</span><br><span class="line">Bob     2415 40 57 62</span><br></pre></td></tr></table></figure>
-<p>我们的awk脚本如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ cat cal.awk</span><br><span class="line">#!&#x2F;bin&#x2F;awk -f</span><br><span class="line">#运行前</span><br><span class="line">BEGIN &#123;</span><br><span class="line">    math &#x3D; 0</span><br><span class="line">    english &#x3D; 0</span><br><span class="line">    computer &#x3D; 0</span><br><span class="line"> </span><br><span class="line">    printf &quot;NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n&quot;</span><br><span class="line">    printf &quot;---------------------------------------------\n&quot;</span><br><span class="line">&#125;</span><br><span class="line">#运行中</span><br><span class="line">&#123;</span><br><span class="line">    math+&#x3D;$3</span><br><span class="line">    english+&#x3D;$4</span><br><span class="line">    computer+&#x3D;$5</span><br><span class="line">    printf &quot;%-6s %-6s %4d %8d %8d %8d\n&quot;, $1, $2, $3,$4,$5, $3+$4+$5</span><br><span class="line">&#125;</span><br><span class="line">#运行后</span><br><span class="line">END &#123;</span><br><span class="line">    printf &quot;---------------------------------------------\n&quot;</span><br><span class="line">    printf &quot;  TOTAL:%10d %8d %8d \n&quot;, math, english, computer</span><br><span class="line">    printf &quot;AVERAGE:%10.2f %8.2f %8.2f\n&quot;, math&#x2F;NR, english&#x2F;NR, computer&#x2F;NR</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="常见题目（更新ing）"><a href="#常见题目（更新ing）" class="headerlink" title="常见题目（更新ing）"></a>常见题目（更新ing）</h2><ol>
+<li>查找最晚入职员工的所有信息</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * from employees where hire_date = </span><br><span class="line">(<span class="keyword">select</span> max(hire_date) from employees);</span><br></pre></td></tr></table></figure>
 
-<h1 id="5-示例"><a href="#5-示例" class="headerlink" title="5. 示例"></a>5. 示例</h1><p>每行按空格或TAB分割，输出文本中的1、4项</p>
-<ul>
-<li><blockquote>
-<p>awk ‘{print $1,$4}’ log.txt </p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>awk ‘{printf “%-8s %-10s\n”,$1,$4}’ log.txt # 格式化输出</p>
-</blockquote>
-</li>
-</ul>
-<p>awk -F  #-F相当于内置变量FS, 指定分割字符</p>
-<ul>
-<li><blockquote>
-<p>awk -F, ‘{print $1,$2}’   log.txt</p>
-</blockquote>
-</li>
-</ul>
-<p>运算符</p>
-<ul>
-<li><blockquote>
-<p>awk ‘$1==2 {print $1,$3}’ log.txt </p>
-</blockquote>
-</li>
-</ul>
-<p>内建变量</p>
-<ul>
-<li><blockquote>
-<p>awk ‘BEGIN{printf “%4s %4s %4s %4s %4s %4s %4s %4s %4s\n”,”FILENAME”,”ARGC”,”FNR”,”FS”,”NF”,”NR”,”OFS”,”ORS”,”RS”;printf “———————————————\n”} {printf “%4s %4s %4s %4s %4s %4s %4s %4s %4s\n”,FILENAME,ARGC,FNR,FS,NF,NR,OFS,ORS,RS}’  log.txt</p>
-</blockquote>
-</li>
-<li>最大值</li>
-<li><blockquote>
-<p>cat data|awk ‘BEGIN {max = 0} {if ($1&gt;max) max=$1 fi} END {print “Max=”, max}’</p>
-</blockquote>
-</li>
-<li>最小值</li>
-<li><blockquote>
-<p>min的初始值设置一个超大数即可</p>
-</blockquote>
-</li>
-<li>平均</li>
-<li><blockquote>
-<p>求平均cat data|awk ‘{sum+=$1} END {print “Average = “, sum/NR}’</p>
-</blockquote>
-</li>
-<li>求和</li>
-<li><blockquote>
-<p>求和cat data|awk ‘{sum+=$1} END {print “Sum = “, sum}’</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="6-原理"><a href="#6-原理" class="headerlink" title="6. 原理"></a>6. 原理</h1><p><img src="https://s1.ax1x.com/2020/04/17/JVWGDI.png" alt="JVWGDI.png"></p>
-<ul>
-<li>1、通过关键字 BEGIN 执行 BEGIN 块的内容，即 BEGIN 后花括号 {} 的内容，<strong>只执行一次</strong>。</li>
-<li>2、完成 BEGIN 块的执行，开始执行body块。</li>
-<li>3、读入有 \n 换行符分割的记录。</li>
-<li>4、将记录按指定的域分隔符划分域，填充域，$0 则表示所有域(即一行内容)，$1 表示第一个域，$n 表示第 n 个域。</li>
-<li>5、依次执行各 BODY 块，pattern 部分匹配该行内容成功后，才会执行 awk-commands 的内容。</li>
-<li>6、循环读取并执行各行直到文件结束，完成body块执行。</li>
-<li>7、开始 END 块执行，END 块可以输出最终结果。</li>
-</ul>
+
+<ol start="2">
+<li>查找入职员工时间排名倒数第三的员工所有信息</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * from employees where hire_date =  </span><br><span class="line">(<span class="keyword">select</span> distinct hire_date from employees </span><br><span class="line">order by hire_date desc limit <span class="number">2</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+
+<ol start="3">
+<li>查找各个部门当前(to_date=’9999-01-01’)领导当前薪水详情以及其对应部门编号dept_no</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> s.* , d.dept_no from </span><br><span class="line">salaries as s inner join dept_manager as d</span><br><span class="line">on s.emp_no = d.emp_no</span><br><span class="line">where s.to_date = <span class="string">'9999-01-01'</span> and d.to_date=<span class="string">'9999-01-01'</span>;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="4">
+<li>查找所有已经分配部门的员工的last_name和first_name以及dept_no</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.last_name , e.first_name , d.dept_no from</span><br><span class="line">dept_emp as d inner join employees as e on</span><br><span class="line">e.emp_no = d.emp_no ;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="5">
+<li>查找所有员工的last_name和first_name以及对应部门编号dept_no，也包括展示没有分配具体部门的员工</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select e.last_name, e.first_name, d.dept_no </span><br><span class="line">from employees e </span><br><span class="line">left join dept_emp d</span><br><span class="line">on e.emp_no&#x3D;d.emp_no;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>查找所有员工入职时候的薪水情况，给出emp_no以及salary， 并按照emp_no进行逆序</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select e.emp_no,s.salary from</span><br><span class="line">employees e join salaries s on</span><br><span class="line">e.emp_no &#x3D; s.emp_no</span><br><span class="line">and e.hire_date &#x3D; s.from_date</span><br><span class="line">order by e.emp_no desc;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="7">
+<li>查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select emp_no,count(*) as t from</span><br><span class="line">salaries group by emp_no</span><br><span class="line">having count(*)&gt;15</span><br></pre></td></tr></table></figure>
+
+
+<ol start="8">
+<li>找出所有员工当前(to_date=’9999-01-01’)具体的薪水salary情况，对于相同的薪水只显示一次,并按照逆序显示<strong>order by salary desc</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select distinct salary from salaries </span><br><span class="line">where to_date &#x3D; &#39;9999-01-01&#39;</span><br><span class="line">order by salary desc</span><br></pre></td></tr></table></figure>
+
+
+<ol start="9">
+<li>获取所有部门当前manager的当前薪水情况，给出dept_no, emp_no以及salary，当前表示to_date=’9999-01-01’</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select d.dept_no , d.emp_no,s.salary from </span><br><span class="line">dept_manager d , salaries s</span><br><span class="line">where d.emp_no &#x3D; s.emp_no</span><br><span class="line">and s.to_date&#x3D;&#39;9999-01-01&#39;</span><br><span class="line">and d.to_date&#x3D;&#39;9999-01-01&#39;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="10">
+<li>获取所有非manager的员工emp_no </li>
+</ol>
+<p><strong>where d.dept_no is null</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select e.emp_no from</span><br><span class="line">employees e left join dept_manager d </span><br><span class="line">on d.emp_no&#x3D;e.emp_no</span><br><span class="line">where d.dept_no is null</span><br></pre></td></tr></table></figure>
+
+
+<ol start="11">
+<li>获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。<br>结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select de.emp_no,dm.emp_no from</span><br><span class="line">dept_emp de join dept_manager dm</span><br><span class="line">on de.dept_no &#x3D; dm.dept_no</span><br><span class="line">and de.emp_no &lt;&gt; dm.emp_no </span><br><span class="line">where de.to_date&#x3D;&#39;9999-01-01&#39;</span><br><span class="line">and dm.to_date&#x3D;&#39;9999-01-01&#39;</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -398,7 +336,7 @@
 	  </div>
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
           </div>
 
         
@@ -407,13 +345,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/14/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
+    <a href="/2020/04/14/Go-Sync-Once/" rel="prev" title="Go-Sync-Once">
+      <i class="fa fa-chevron-left"></i> Go-Sync-Once
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/14/Go-Sync-Once/" rel="next" title="Go-Sync-Once">
-      Go-Sync-Once <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -472,7 +407,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-用法："><span class="nav-number">1.</span> <span class="nav-text">1. 用法：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-内建变量"><span class="nav-number">2.</span> <span class="nav-text">2. 内建变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-正则"><span class="nav-number">3.</span> <span class="nav-text">3. 正则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-awk脚本"><span class="nav-number">4.</span> <span class="nav-text">4. awk脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-示例"><span class="nav-number">5.</span> <span class="nav-text">5. 示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-原理"><span class="nav-number">6.</span> <span class="nav-text">6. 原理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础数据表"><span class="nav-number">1.</span> <span class="nav-text">基础数据表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见题目（更新ing）"><span class="nav-number">2.</span> <span class="nav-text">常见题目（更新ing）</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
