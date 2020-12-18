@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-200x200.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-140x140.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="3KfeuwmgWO9nfjefJZU3NV4FNzb9FuLdUB_GmBshitE">
+  <meta name="baidu-site-verification" content="cOFltGMASY">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-big-counter.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"caojiabiao.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+
+  <meta name="description" content="laravel服务提供者的理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laravel-服务提供者">
+<meta property="og:url" content="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/index.html">
+<meta property="og:site_name" content="Chico Cao">
+<meta property="og:description" content="laravel服务提供者的理解">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-18T07:31:23.000Z">
+<meta property="article:modified_time" content="2020-12-18T07:32:26.282Z">
+<meta property="article:author" content="Cao Jia Biao">
+<meta property="article:tag" content="laravel">
+<meta property="article:tag" content="服务提供者">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>laravel-服务提供者 | Chico Cao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chico Cao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon-140x140.jpg">
+      <meta itemprop="name" content="Cao Jia Biao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chico Cao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          laravel-服务提供者
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-18 15:31:23 / 修改时间：15:32:26" itemprop="dateCreated datePublished" datetime="2020-12-18T15:31:23+08:00">2020-12-18</time>
+            </span>
+
+          
+            <span id="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" class="post-meta-item leancloud_visitors" data-flag-title="laravel-服务提供者" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+            <div class="post-description">laravel服务提供者的理解</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>来源 <a href="https://learnku.com/articles/12852/laravel-service-provider-guide" target="_blank" rel="noopener">https://learnku.com/articles/12852/laravel-service-provider-guide</a></p>
+</blockquote>
+<p>实现一个自定义的服务提供者，需要实现两个非常重要的方法：boot 和 register 方法。关于这两个方法将在教程最后一个小节讨论。</p>
+<p>在学习服务提供者之前，简单介绍一下服务容器，服务容器会在服务提供者中被经常使用。</p>
+<h1 id="理解服务容器和服务提供者"><a href="#理解服务容器和服务提供者" class="headerlink" title="理解服务容器和服务提供者"></a>理解服务容器和服务提供者</h1><h2 id="什么是服务容器"><a href="#什么是服务容器" class="headerlink" title="什么是服务容器"></a>什么是服务容器</h2><p>简而言之，Laravel 服务容器是一个用于存储绑定组件的盒子，它还会为应用提供所需的服务。</p>
+<p>Laravel 文档中描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具 - Laravel 文档</span><br></pre></td></tr></table></figure>
+<p>这样，当我们需要注入一个内置的组件或服务时，可以在构造函数或方法中使用类型提示功能注入，然后在使用时从服务容器中自动解析出所需实例及其依赖！是不是很酷？这个功能可以让我们从手动管理组件中解脱出来，从而降低系统耦合度。</p>
+<p>让我们看一个简单实例来加深理解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">Class SomeClass</span><br><span class="line">&#123;</span><br><span class="line">    public function __construct(FooBar $foobarObject)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; use $foobarObject object</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如你所见，SomeClass 需要使用 FooBar 实例。换句话说它需要依赖其它组件。Laravel 实现自动注入需要从服务容器中查找并执行注入适当的依赖。</p>
+<p>如果你希望了解 Laravel 是如何知道需要将哪个组件或服务绑定到服务容器中的，答案是通过服务提供者实现的。服务提供者完成将组件绑定到服务容器的工作。在服务提供者内部，这个工作被称之为服务容器绑定，绑定处理由服务提供者完成。</p>
+<p>服务提供者实现了服务绑定，绑定处理则由 register 方法完成。</p>
+<p>同时，这又会引入一个新的问题：Laravel 是如何知道有哪些服务提供者的呢？这个我们貌似还没有讨论到吧？我到时看到，之前有说 Laravel 会自动的去查找到服务！朋友，你的问题太多了：Laravel 只是一个框架，它不是一个超级英雄，不是么？我们当然需要去明确的告知 Laravel 框架我们有哪些服务提供者。</p>
+<p>让我们来瞧瞧 config/app.php 配置文件。你会找到一个用于 Laravel 应用启动过程中被载入的服务提供者配置列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#39;providers&#39; &#x3D;&gt; [</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Laravel Framework Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        Illuminate\Auth\AuthServiceProvider::class,</span><br><span class="line">        Illuminate\Broadcasting\BroadcastServiceProvider::class,</span><br><span class="line">        Illuminate\Bus\BusServiceProvider::class,</span><br><span class="line">        Illuminate\Cache\CacheServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,</span><br><span class="line">        Illuminate\Cookie\CookieServiceProvider::class,</span><br><span class="line">        Illuminate\Database\DatabaseServiceProvider::class,</span><br><span class="line">        Illuminate\Encryption\EncryptionServiceProvider::class,</span><br><span class="line">        Illuminate\Filesystem\FilesystemServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\FoundationServiceProvider::class,</span><br><span class="line">        Illuminate\Hashing\HashServiceProvider::class,</span><br><span class="line">        Illuminate\Mail\MailServiceProvider::class,</span><br><span class="line">        Illuminate\Notifications\NotificationServiceProvider::class,</span><br><span class="line">        Illuminate\Pagination\PaginationServiceProvider::class,</span><br><span class="line">        Illuminate\Pipeline\PipelineServiceProvider::class,</span><br><span class="line">        Illuminate\Queue\QueueServiceProvider::class,</span><br><span class="line">        Illuminate\Redis\RedisServiceProvider::class,</span><br><span class="line">        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,</span><br><span class="line">        Illuminate\Session\SessionServiceProvider::class,</span><br><span class="line">        Illuminate\Translation\TranslationServiceProvider::class,</span><br><span class="line">        Illuminate\Validation\ValidationServiceProvider::class,</span><br><span class="line">        Illuminate\View\ViewServiceProvider::class,</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Package Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        Laravel\Tinker\TinkerServiceProvider::class,</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Application Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        App\Providers\AppServiceProvider::class,</span><br><span class="line">        App\Providers\AuthServiceProvider::class,</span><br><span class="line">        &#x2F;&#x2F; App\Providers\BroadcastServiceProvider::class,</span><br><span class="line">        App\Providers\EventServiceProvider::class,</span><br><span class="line">        App\Providers\RouteServiceProvider::class,</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<h1 id="什么是服务提供者"><a href="#什么是服务提供者" class="headerlink" title="什么是服务提供者"></a>什么是服务提供者</h1><p>如果说服务容器是提供绑定和依赖注入的的工具，那么 服务提供者 则是实现绑定的工具。</p>
+<p>让我们先来看一个内容提供的服务提供者服务来理解它的运行原理。打开 vender/laravel/framework/src/Illuminate/Cache/CacheServiceProvider.php 文件。</p>
+<p>这里我们需要将重点集中在 register 方法中，这个方法用于绑定服务到服务容器。如你所见，这里一共执行了三个服务的绑定处理：cache、cache.store 和 memcached.connector。</p>
+<p>然后，当我们需要在 Laravel 中使用 cache 服务是，服务容器会解析出 CacheManager 实例并返回。也就是说我们仅仅是提供了一个可以从 $this-&gt;app 访问的对应关系表。</p>
+<p>通过服务提供者绑定服务是 Laravel 服务容器绑定服务的正确打开方式。同时通过服务提供者的 register 方法，还有利于理解 Laravel 服务容器是如何管理所有的服务的。我们之前提到过，通过从 config/app.php 配置文件中读取服务提供者配置列表，从将所有服务注册服务容器中。</p>
+<p>以上，就是服务提供者和它的故事。下一节，我们会学习如何创建一个服务提供者来实现将自己的服务注册到 Laravel 服务容器。</p>
+<h1 id="自定义服务提供者"><a href="#自定义服务提供者" class="headerlink" title="自定义服务提供者"></a>自定义服务提供者</h1><p>Laravel 已经内置了一个用于创建服务提供者的 artisan 命令来简化创建流程。进入命令行模式后执行下面命令来创建服务提供者。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:provider EnvatoCustomServiceProvider</span><br></pre></td></tr></table></figure>
+<p>运行后会在 app/Providers 目录下创建 EnvatoCustomServiceProvider.php 文件。打开该文件看下它的源码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Providers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Support\ServiceProvider;</span><br><span class="line"></span><br><span class="line">class EnvatoCustomServiceProvider extends ServiceProvider</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Bootstrap the application services.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function boot()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Register the application services.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function register()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之前我们有提到服务提供者有两个重要方法：boot 和 register 方法，在实现自定义服务提供者时大部分都是在处理这两个方法。</p>
+<p>register 方法用于执行服务绑定处理。另外在 boot 方法中可以使用所有已绑定的服务。在这个教程的最后一节我们将学习更多有关这两个方法的细节，但在这里我们会先了解些这两个方法的使用示例加深理解。</p>
+<h2 id="注册自定义服务提供者"><a href="#注册自定义服务提供者" class="headerlink" title="注册自定义服务提供者"></a>注册自定义服务提供者</h2><p>前面我们创建了一个自定义的服务提供者。接下来需要让 Laravel 知道如何让这个服务提供者同其它服务提供者一样在应用启动时被加载到 Laravel 中。</p>
+<p>为了完成注册服务提供者的功能，仅需要将类名加入到 config/app.php 配置文件的 providers 节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&#39;providers&#39; &#x3D;&gt; [</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Laravel Framework Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        Illuminate\Auth\AuthServiceProvider::class,</span><br><span class="line">        Illuminate\Broadcasting\BroadcastServiceProvider::class,</span><br><span class="line">        Illuminate\Bus\BusServiceProvider::class,</span><br><span class="line">        Illuminate\Cache\CacheServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,</span><br><span class="line">        Illuminate\Cookie\CookieServiceProvider::class,</span><br><span class="line">        Illuminate\Database\DatabaseServiceProvider::class,</span><br><span class="line">        Illuminate\Encryption\EncryptionServiceProvider::class,</span><br><span class="line">        Illuminate\Filesystem\FilesystemServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\FoundationServiceProvider::class,</span><br><span class="line">        Illuminate\Hashing\HashServiceProvider::class,</span><br><span class="line">        Illuminate\Mail\MailServiceProvider::class,</span><br><span class="line">        Illuminate\Notifications\NotificationServiceProvider::class,</span><br><span class="line">        Illuminate\Pagination\PaginationServiceProvider::class,</span><br><span class="line">        Illuminate\Pipeline\PipelineServiceProvider::class,</span><br><span class="line">        Illuminate\Queue\QueueServiceProvider::class,</span><br><span class="line">        Illuminate\Redis\RedisServiceProvider::class,</span><br><span class="line">        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,</span><br><span class="line">        Illuminate\Session\SessionServiceProvider::class,</span><br><span class="line">        Illuminate\Translation\TranslationServiceProvider::class,</span><br><span class="line">        Illuminate\Validation\ValidationServiceProvider::class,</span><br><span class="line">        Illuminate\View\ViewServiceProvider::class,</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Package Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        Laravel\Tinker\TinkerServiceProvider::class,</span><br><span class="line"></span><br><span class="line">        &#x2F;*</span><br><span class="line">         * Application Service Providers...</span><br><span class="line">         *&#x2F;</span><br><span class="line">        App\Providers\AppServiceProvider::class,</span><br><span class="line">        App\Providers\AuthServiceProvider::class,</span><br><span class="line">        &#x2F;&#x2F; App\Providers\BroadcastServiceProvider::class,</span><br><span class="line">        App\Providers\EventServiceProvider::class,</span><br><span class="line">        App\Providers\RouteServiceProvider::class,</span><br><span class="line">        App\Providers\EnvatoCustomServiceProvider::class,</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>就是如此简单，现在你已经将自定义服务提供者注册到了 Laravel 中。只不过现在这个服务提供者还几乎什么都没有处理。下一节，我们将以实例演示如何使用 register 和 boot 方法。</p>
+<h2 id="深入讲解-register-和-boot-方法"><a href="#深入讲解-register-和-boot-方法" class="headerlink" title="深入讲解 register 和 boot 方法"></a>深入讲解 register 和 boot 方法</h2><p>起先，我们来深入研究 register 方法加深你对这个方法的理解。打开之前创建的 app/Providers/EnvatoCustomServiceProvider.php 文件，加入如下代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Providers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Support\ServiceProvider;</span><br><span class="line">use App\Library\Services\DemoOne;</span><br><span class="line"></span><br><span class="line">class EnvatoCustomServiceProvider extends ServiceProvider</span><br><span class="line">&#123;</span><br><span class="line">    public function boot()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function register()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;app-&gt;bind(&#39;App\Library\Services\DemoOne&#39;, function ($app) &#123;</span><br><span class="line">            return new DemoOne();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们做了两个处理：</p>
+<ul>
+<li>引入需要使用的 App\Library\Services\DemoOne 服务。DemoOne 类现在还没有创建，但之后会创建这个类。</li>
+<li>在 register 方法中，我们使用服务容器的 bind 方法将服务绑定到容器。这样，当需要使用 App\Library\Services\DemoOne 服务而被解析时，就回调用闭包方法，创建实例并返回 App\Library\Services\DemoOne 对象。</li>
+</ul>
+<p>现在创建 app/Library/Services/DemoOne.php 文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Library\Services;</span><br><span class="line"></span><br><span class="line">class DemoOne</span><br><span class="line">&#123;</span><br><span class="line">    public function doSomethingUseful()</span><br><span class="line">    &#123;</span><br><span class="line">      return &#39;Output from DemoOne&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，在控制器的构造函数中注入依赖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use App\Http\Controllers\Controller;</span><br><span class="line">use App\Library\Services\DemoOne;</span><br><span class="line"></span><br><span class="line">class TestController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index(DemoOne $customServiceInstance)</span><br><span class="line">    &#123;</span><br><span class="line">        echo $customServiceInstance-&gt;doSomethingUseful();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上便是一个使用绑定的简单方法。事实上，对于这个示例其实并不需要创建一个服务提供者，并实现 register 方法，因为 Laravel 还可以通过 PHP 的方式功能自动解析。</p>
+<p>Laravel 文档中对此有一个说明：</p>
+<blockquote>
+<p>如果我们的依赖无需任何接口，则无需将类绑定到容器。容器此时不需要了解创建对象的具体细节，而可以通过反射功能实现自动注入。</p>
+</blockquote>
+<p>换句话说，如果我们需要绑定的服务依赖于其它接口，创建服务提供者则很有必要。接着来看一个实例以加深理解。</p>
+<p>首先，创建一个简单的接口 app/Library/Services/Contracts/CustomServiceInterface.php。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F; app&#x2F;Library&#x2F;Services&#x2F;Contracts&#x2F;CustomServiceInterface.php</span><br><span class="line">namespace App\Library\Services\Contracts;</span><br><span class="line"></span><br><span class="line">Interface CustomServiceInterface</span><br><span class="line">&#123;</span><br><span class="line">    public function doSomethingUseful();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，创建两个基于此接口的具体实现。或者说，创建两个继承此接口的实现类。</p>
+<p>一个是定义在 app/Library/Services/DemoOne.php 文件中的 DemoOne 类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F; app&#x2F;Library&#x2F;Services&#x2F;DemoOne.php</span><br><span class="line">namespace App\Library\Services;</span><br><span class="line"></span><br><span class="line">use App\Library\Services\Contracts\CustomServiceInterface;</span><br><span class="line"></span><br><span class="line">class DemoOne implements CustomServiceInterface</span><br><span class="line">&#123;</span><br><span class="line">    public function doSomethingUseful()</span><br><span class="line">    &#123;</span><br><span class="line">      return &#39;Output from DemoOne&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类似的，还有 app/Library/Services/DemoTwo.php。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F; app&#x2F;Library&#x2F;Services&#x2F;DemoTwo.php</span><br><span class="line">namespace App\Library\Services;</span><br><span class="line"></span><br><span class="line">use App\Library\Services\Contracts\CustomServiceInterface;</span><br><span class="line"></span><br><span class="line">class DemoTwo implements CustomServiceInterface</span><br><span class="line">&#123;</span><br><span class="line">    public function doSomethingUseful()</span><br><span class="line">    &#123;</span><br><span class="line">      return &#39;Output from DemoTwo&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，将绑定具体类名修改为绑定接口。打开 EnvatoCustomServiceProvider.php 文件并改成如何代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Providers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Support\ServiceProvider;</span><br><span class="line">use App\Library\Services\DemoOne;</span><br><span class="line"></span><br><span class="line">class EnvatoCustomServiceProvider extends ServiceProvider</span><br><span class="line">&#123;</span><br><span class="line">    public function boot()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function register()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;app-&gt;bind(&#39;App\Library\Services\Contracts\CustomServiceInterface&#39;, function ($app) &#123;</span><br><span class="line">          return new DemoOne();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，我们将 DemoOne 实现类绑定到 App\Library\Services\Contracts\CustomServiceInterface 接口。后续，所有依赖 App\Library\Services\Contracts\CustomServiceInterface 接口的功能都被解析成 App\Library\Services\DemoOne 对象。 这个示例是不是更有实际意义呢？</p>
+<p>当然，我们还需要调整下控制器中的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use App\Http\Controllers\Controller;</span><br><span class="line">use App\Library\Services\Contracts\CustomServiceInterface;</span><br><span class="line"></span><br><span class="line">class TestController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index(CustomServiceInterface $customServiceInstance)</span><br><span class="line">    &#123;</span><br><span class="line">        echo $customServiceInstance-&gt;doSomethingUseful();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或许你已经猜到 $customServiceInstance 对象是 App\Library\Services\DemoOne 类的实例！这种方案的优势在于可以很容易的替换掉 DemoOne 这个实现。</p>
+<p>假如你想使用 DemoTwo 替换掉 DemoOne 服务。此时，仅需简单的调整下服务提供者中的代码 EnvatoCustomServiceProvider.php。</p>
+<p>将：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use App\Library\Services\DemoOne;</span><br></pre></td></tr></table></figure>
+
+<p>替换成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use App\Library\Services\DemoTwo;</span><br></pre></td></tr></table></figure>
+<p>然后替换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new DemoOne();</span><br></pre></td></tr></table></figure>
+<p>到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new DemoTwo();</span><br></pre></td></tr></table></figure>
+<p>使用同样的手法甚至可以将自定义的实现替换掉任何核心服务中的依赖。不仅如此，除了 bind 方法；Laravel 服务容器还提供多种绑定方法。可以查看 Laravel 服务容器 文档了解更多。</p>
+<p>下一个主题是可以扩展 Laravel 核心服务的 boot 方法。在这个方法中，你可以获取所有通过服务提供者注册到容器中的服务。通常，你会在这个方法中注册某些功能完成后需要触发其它操作的事件监听器。</p>
+<p>依照惯例看几个示例先。</p>
+<p>创建一个用于 Laravel 校验的自定义表单验证器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function boot()</span><br><span class="line">&#123;</span><br><span class="line">    Validator::extend(&#39;my_custom_validator&#39;, function ($attribute, $value, $parameters, $validator) &#123;</span><br><span class="line">        &#x2F;&#x2F; validation logic goes here...</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也许你想创建一个 view composer。在 boot 方法中创建是个不错的选择。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function boot()</span><br><span class="line">&#123;</span><br><span class="line">    View::composer(</span><br><span class="line">        &#39;demo&#39;, &#39;App\Http\ViewComposers\DemoComposer&#39;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然在这里需要率先导入 Illuminate\Support\Facades\View。</p>
+<p>有时，我们还需要创建一些共享数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public function boot()</span><br><span class="line">&#123;</span><br><span class="line">    View::share(&#39;key&#39;, &#39;value&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至可以显示的创建模型绑定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function boot()</span><br><span class="line">&#123;</span><br><span class="line">    parent::boot();</span><br><span class="line"></span><br><span class="line">    Route::model(&#39;user&#39;, App\User::class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Cao Jia Biao 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+	  <div>
+		
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------本文结束啦，如果本文对你有帮助的话，打赏一下呗✍------</div>
+    
+</div>
+		
+	  </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/laravel/" rel="tag"># laravel</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/" rel="prev" title="laravel-服务容器">
+      <i class="fa fa-chevron-left"></i> laravel-服务容器
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#理解服务容器和服务提供者"><span class="nav-number">1.</span> <span class="nav-text">理解服务容器和服务提供者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是服务容器"><span class="nav-number">1.1.</span> <span class="nav-text">什么是服务容器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是服务提供者"><span class="nav-number">2.</span> <span class="nav-text">什么是服务提供者</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义服务提供者"><span class="nav-number">3.</span> <span class="nav-text">自定义服务提供者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册自定义服务提供者"><span class="nav-number">3.1.</span> <span class="nav-text">注册自定义服务提供者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深入讲解-register-和-boot-方法"><span class="nav-number">3.2.</span> <span class="nav-text">深入讲解 register 和 boot 方法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cao Jia Biao"
+      src="/images/favicon-140x140.jpg">
+  <p class="site-author-name" itemprop="name">Cao Jia Biao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CaoJiaBiao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CaoJiaBiao" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/JiaBiao%E5%85%88%E7%94%9F" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;JiaBiao先生" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cao Jia Biao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">22k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">20 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"4pbdi2ie9rYFQWhwxrbSjopC-gzGzoHsz","app_key":"c8gGxt1S1mr9om75RpBiXaUo","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'lQetxPwENd8bEgbBquPguS16-gzGzoHsz',
+      appKey     : 'Hc5qA1LHjCqaS7ugxpcWel6b',
+      placeholder: "畅所欲言吧",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

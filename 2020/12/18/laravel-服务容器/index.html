@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-200x200.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-140x140.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="3KfeuwmgWO9nfjefJZU3NV4FNzb9FuLdUB_GmBshitE">
+  <meta name="baidu-site-verification" content="cOFltGMASY">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-big-counter.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"caojiabiao.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+
+  <meta name="description" content="laravel5.6的服务容器的文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laravel-服务容器">
+<meta property="og:url" content="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="Chico Cao">
+<meta property="og:description" content="laravel5.6的服务容器的文档">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-18T07:28:07.000Z">
+<meta property="article:modified_time" content="2020-12-18T07:31:07.839Z">
+<meta property="article:author" content="Cao Jia Biao">
+<meta property="article:tag" content="laravel">
+<meta property="article:tag" content="服务容器">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>laravel-服务容器 | Chico Cao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chico Cao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://caojiabiao.github.io/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon-140x140.jpg">
+      <meta itemprop="name" content="Cao Jia Biao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chico Cao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          laravel-服务容器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-18 15:28:07 / 修改时间：15:31:07" itemprop="dateCreated datePublished" datetime="2020-12-18T15:28:07+08:00">2020-12-18</time>
+            </span>
+
+          
+            <span id="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/" class="post-meta-item leancloud_visitors" data-flag-title="laravel-服务容器" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">laravel5.6的服务容器的文档</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>来源 <a href="https://learnku.com/docs/laravel/5.6/container/1359" target="_blank" rel="noopener">https://learnku.com/docs/laravel/5.6/container/1359</a></p>
+</blockquote>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具。依赖注入这个花俏名词实质上是指：类的依赖项通过构造函数，或者某些情况下通过「setter」方法「注入」到类中。</p>
+<p>来看一个简单的例子:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">User</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Repositories</span>\<span class="title">UserRepository</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用户存储库的实现。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@var</span> UserRepository</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> $users;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建新的控制器实例。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span>  UserRepository  $users</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> void</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(UserRepository $users)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;users = $users;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 显示指定用户的 profile。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span>  int  $id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Response</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $user = <span class="keyword">$this</span>-&gt;users-&gt;find($id);</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> view(<span class="string">'user.profile'</span>, [<span class="string">'user'</span> =&gt; $user]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，控制器 UserController 需要从数据源中获取 users 。因此，我们要 注入 可以获取 users 的服务。在这种情况下，UserRepository 可能是使用 Eloquent 从数据库中获取 user 信息。因为 Repository 是通过 UserRepository 注入的，所以我们可以轻易地将其切换为另一个实现。这种注入方式的便利之处还体现在当我们为应用编写测试时，我们还可以轻松地「模拟」或创建 UserRepository 的虚拟实现。</p>
+<p>想要构建强大的大型应用，至关重要的一件事是：要深刻的理解 Laravel 服务容器。当然，为 Laravel 的核心代码做出贡献也一样。</p>
+<h1 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h1><h2 id="绑定基础"><a href="#绑定基础" class="headerlink" title="绑定基础"></a>绑定基础</h2><p>因为几乎所有服务容器绑定操作都是在 服务提供器 中注册的，所以文档中大多数例子都是使用了在服务提供器中绑定的容器。</p>
+<blockquote>
+<p>{tip} 如果类没有依赖任何接口，就没有必要将类绑定到容器中。容器不需要指定如何构建这些对象，因为它可以使用反射自动解析这些对象。</p>
+</blockquote>
+<h2 id="简单绑定"><a href="#简单绑定" class="headerlink" title="简单绑定"></a>简单绑定</h2><p>在服务提供器中，你可以通过 $this-&gt;app 属性访问容器。我们可以通过 bind 方法注册绑定，传递我们想要注册的类或接口名称再返回类的实例的 Closure ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;bind(&#39;HelpSpot\API&#39;, function ($app) &#123;</span><br><span class="line">    return new HelpSpot\API($app-&gt;make(&#39;HttpClient&#39;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>注意，我们接受容器本身作为解析器的参数。然后，我们可以使用容器来解析正在构建的对象的子依赖。</p>
+<h2 id="绑定一个单例"><a href="#绑定一个单例" class="headerlink" title="绑定一个单例"></a>绑定一个单例</h2><p>singleton 方法将类或接口绑定到只能解析一次的容器中。绑定的单例被解析后，相同的对象实例会在随后的调用中返回到容器中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;singleton(&#39;HelpSpot\API&#39;, function ($app) &#123;</span><br><span class="line">    return new HelpSpot\API($app-&gt;make(&#39;HttpClient&#39;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定实例"><a href="#绑定实例" class="headerlink" title="绑定实例"></a>绑定实例</h2><p>你也可以使用 instance 方法将现有对象实例绑定到容器中。给定的实例会始终在随后的调用中返回到容器中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$api &#x3D; new HelpSpot\API(new HttpClient);</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;instance(&#39;HelpSpot\API&#39;, $api);</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定初始数据"><a href="#绑定初始数据" class="headerlink" title="绑定初始数据"></a>绑定初始数据</h2><p>当你有一个类不仅需要接受一个注入类，还需要注入一个基本值（比如整数）。你可以使用上下文绑定来轻松注入你的类需要的任何值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;when(&#39;App\Http\Controllers\UserController&#39;)</span><br><span class="line">          -&gt;needs(&#39;$variableName&#39;)</span><br><span class="line">          -&gt;give($value);</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定接口到实现"><a href="#绑定接口到实现" class="headerlink" title="绑定接口到实现"></a>绑定接口到实现</h2><p>服务容器有一个强大的功能，就是将接口绑定到给定实现。例如，如果我们有一个 EventPusher 接口和一个 RedisEventPusher 实现。编写完接口的 RedisEventPusher 实现后，我们就可以在服务容器中注册它，像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;bind(</span><br><span class="line">    &#39;App\Contracts\EventPusher&#39;,</span><br><span class="line">    &#39;App\Services\RedisEventPusher&#39;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+<p>这么做相当于告诉容器：当一个类需要实现 EventPusher 时，应该注入 RedisEventPusher。现在我们就可以在构造函数或者任何其他通过服务容器注入依赖项的地方使用类型提示注入 EventPusher 接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">use App\Contracts\EventPusher;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"></span><br><span class="line"> * Create a new class instance.</span><br><span class="line">   *</span><br><span class="line"> * @param  EventPusher  $pusher</span><br><span class="line"> * @return void</span><br><span class="line">   *&#x2F;</span><br><span class="line">   public function __construct(EventPusher $pusher)</span><br><span class="line">   &#123;</span><br><span class="line">   $this-&gt;pusher &#x3D; $pusher;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="上下文绑定"><a href="#上下文绑定" class="headerlink" title="上下文绑定"></a>上下文绑定</h2><p>有时候，你可能有两个类使用了相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 Illuminate\Contracts\Filesystem\Filesystem 契约 实现。 Laravel 提供了一个简单、优雅的接口来定义这个行为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">use Illuminate\Support\Facades\Storage;</span><br><span class="line">use App\Http\Controllers\PhotoController;</span><br><span class="line">use App\Http\Controllers\VideoController;</span><br><span class="line">use Illuminate\Contracts\Filesystem\Filesystem;</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;when(PhotoController::class)</span><br><span class="line">          -&gt;needs(Filesystem::class)</span><br><span class="line">          -&gt;give(function () &#123;</span><br><span class="line">              return Storage::disk(&#39;local&#39;);</span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;when(VideoController::class)</span><br><span class="line">          -&gt;needs(Filesystem::class)</span><br><span class="line">          -&gt;give(function () &#123;</span><br><span class="line">              return Storage::disk(&#39;s3&#39;);</span><br><span class="line">          &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h2><p>有时候，你可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个报表的聚合器，它接收一个包含不同 Report 接口实现的数组。注册了 Report 实现后，你可以使用 tag 方法为其分配标签：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;bind(&#39;SpeedReport&#39;, function () &#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;bind(&#39;MemoryReport&#39;, function () &#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;tag([&#39;SpeedReport&#39;, &#39;MemoryReport&#39;], &#39;reports&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>服务被标记后，你可以通过 tagged 方法轻松地将它们全部解析：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;bind(&#39;ReportAggregator&#39;, function ($app) &#123;</span><br><span class="line">    return new ReportAggregator($app-&gt;tagged(&#39;reports&#39;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>扩展绑定<br>extend 方法可以修改解析的服务。例如，当一个服务被解析后，你可以添加额外的代码去修饰或配置这个服务。 extend 方法接受一个闭包，闭包的唯一参数和返回值都是一个服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;extend(Service::class, function($service) &#123;</span><br><span class="line">    return new DecoratedService($service);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="解析实例"><a href="#解析实例" class="headerlink" title="解析实例"></a>解析实例</h1><h2 id="make-方法"><a href="#make-方法" class="headerlink" title="make 方法"></a>make 方法</h2><p>你可以使用 make 方法将容器中的类实例解析出来。make 方法接受要解析的类或接口的名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$api &#x3D; $this-&gt;app-&gt;make(&#39;HelpSpot\API&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你的代码处于不能访问 $app 变量的位置，你可以使用全局的辅助函数 resolve：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$api &#x3D; resolve(&#39;HelpSpot\API&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你的某些类的依赖项不能通过容器去解析，那你可以通过将它们作为关联数组传递到 makeWith 方法来注入它们。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$api &#x3D; $this-&gt;app-&gt;makeWith(&#39;HelpSpot\API&#39;, [&#39;id&#39; &#x3D;&gt; 1]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="自动注入"><a href="#自动注入" class="headerlink" title="自动注入"></a>自动注入</h2><p>你可以简单地使用「类型提示」的方式在由容器解析的类的构造函数中添加依赖项，包括 控制器、监听事件、队列任务、中间件 等。 事实上，这是你的大多数对象也应该由容器解析。</p>
+<p>例如，你可以在控制器的构造函数中对应用程序定义的 Repository 使用类型提示。Repository 会被自动解析并注入到类中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use App\Users\Repository as UserRepository;</span><br><span class="line"></span><br><span class="line">class UserController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * UserRepository 的实例对象</span><br><span class="line">     *&#x2F;</span><br><span class="line">    protected $users;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 控制器的构造函数</span><br><span class="line">     *</span><br><span class="line">     * @param  UserRepository  $users</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function __construct(UserRepository $users)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;users &#x3D; $users;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 显示 ID 对应的用户</span><br><span class="line">     *</span><br><span class="line">     * @param  int  $id</span><br><span class="line">     * @return Response</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function show($id)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="容器事件"><a href="#容器事件" class="headerlink" title="容器事件"></a>容器事件</h2><p>每当服务容器解析一个对象时触发一个事件。你可以使用 resolving 方法监听这个事件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;app-&gt;resolving(function ($object, $app) &#123;</span><br><span class="line">    &#x2F;&#x2F; Called when container resolves object of any type...</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$this-&gt;app-&gt;resolving(HelpSpot\API::class, function ($api, $app) &#123;</span><br><span class="line">    &#x2F;&#x2F; Called when container resolves objects of type &quot;HelpSpot\API&quot;...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>如你所见，被解析的对象会被传递给回调中，让你在对象被传递出去之前可以在对象上设置任何属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PSR-11</span><br><span class="line">Laravel 的服务容器实现了 PSR-11 接口。 因此，你可以使用 PSR-11 容器『接口类型提示』来获取 Laravel 容器的实例：</span><br><span class="line"></span><br><span class="line">use Psr\Container\ContainerInterface;</span><br><span class="line"></span><br><span class="line">Route::get(&#39;&#x2F;&#39;, function (ContainerInterface $container) &#123;</span><br><span class="line">    $service &#x3D; $container-&gt;get(&#39;Service&#39;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>{note} 如果标签没有明确绑定到容器中，那么调用 <code>get</code> 方法时会抛出异常。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Cao Jia Biao 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+	  <div>
+		
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------本文结束啦，如果本文对你有帮助的话，打赏一下呗✍------</div>
+    
+</div>
+		
+	  </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/laravel/" rel="tag"># laravel</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/16/nginx-location-%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99/" rel="prev" title="nginx-location-匹配规则">
+      <i class="fa fa-chevron-left"></i> nginx-location-匹配规则
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/18/laravel-%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" rel="next" title="laravel-服务提供者">
+      laravel-服务提供者 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绑定"><span class="nav-number">2.</span> <span class="nav-text">绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定基础"><span class="nav-number">2.1.</span> <span class="nav-text">绑定基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单绑定"><span class="nav-number">2.2.</span> <span class="nav-text">简单绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定一个单例"><span class="nav-number">2.3.</span> <span class="nav-text">绑定一个单例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定实例"><span class="nav-number">2.4.</span> <span class="nav-text">绑定实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定初始数据"><span class="nav-number">2.5.</span> <span class="nav-text">绑定初始数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定接口到实现"><span class="nav-number">2.6.</span> <span class="nav-text">绑定接口到实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文绑定"><span class="nav-number">2.7.</span> <span class="nav-text">上下文绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标记"><span class="nav-number">2.8.</span> <span class="nav-text">标记</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解析实例"><span class="nav-number">3.</span> <span class="nav-text">解析实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#make-方法"><span class="nav-number">3.1.</span> <span class="nav-text">make 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动注入"><span class="nav-number">3.2.</span> <span class="nav-text">自动注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器事件"><span class="nav-number">3.3.</span> <span class="nav-text">容器事件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cao Jia Biao"
+      src="/images/favicon-140x140.jpg">
+  <p class="site-author-name" itemprop="name">Cao Jia Biao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CaoJiaBiao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CaoJiaBiao" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/JiaBiao%E5%85%88%E7%94%9F" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;JiaBiao先生" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cao Jia Biao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">22k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">20 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"4pbdi2ie9rYFQWhwxrbSjopC-gzGzoHsz","app_key":"c8gGxt1S1mr9om75RpBiXaUo","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'lQetxPwENd8bEgbBquPguS16-gzGzoHsz',
+      appKey     : 'Hc5qA1LHjCqaS7ugxpcWel6b',
+      placeholder: "畅所欲言吧",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
